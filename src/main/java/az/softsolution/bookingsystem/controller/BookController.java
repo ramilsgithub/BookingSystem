@@ -14,7 +14,7 @@ public class BookController {
     }
 
 
-    @PostMapping("/{flightId}")
+    @PutMapping("/{flightId}")
     public String book(@PathVariable(value = "flightId") Long flightId, @RequestBody UserDto userDto){
         Long id = service.book(flightId, userDto);
         return "Your book ID - " + id;
