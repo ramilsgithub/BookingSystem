@@ -28,7 +28,7 @@ public class FlightServiceImpl implements FlightService {
     public List<FlightDto> getNextDay() {
         LocalDate date = LocalDate.now();
         LocalDate nexdDay = LocalDate.of(date.getYear(), date.getMonth(), date.getDayOfMonth() + 1);
-        List<Flight> flights = repository.findAllByDateIsGreaterThan(nexdDay);
+        List<Flight> flights = repository.findAllByDateEquals(nexdDay);
         List<FlightDto> flightDtos = mapper.toFlightDtos(flights);
         return flightDtos;
     }

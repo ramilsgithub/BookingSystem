@@ -5,7 +5,7 @@ import az.softsolution.bookingsystem.service.BookService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("book")
+@RequestMapping("/book")
 public class BookController {
     private final BookService service;
 
@@ -14,10 +14,10 @@ public class BookController {
     }
 
 
-    @PutMapping("/{flightId}")
+    @PostMapping("/{flightId}")
     public String book(@PathVariable(value = "flightId") Long flightId, @RequestBody UserDto userDto){
         Long id = service.book(flightId, userDto);
-        return "Your book ID - " + id;
+        return "Your book id is + " + id;
     }
 
     @DeleteMapping("/cancel/{id}")

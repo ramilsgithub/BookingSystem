@@ -4,8 +4,10 @@ import az.softsolution.bookingsystem.dto.UserDto;
 import az.softsolution.bookingsystem.exception.BookNotFoundException;
 import az.softsolution.bookingsystem.mapper.UserMapper;
 import az.softsolution.bookingsystem.model.Book;
+import az.softsolution.bookingsystem.model.Flight;
 import az.softsolution.bookingsystem.model.User;
 import az.softsolution.bookingsystem.repository.BookRepository;
+import az.softsolution.bookingsystem.repository.FlightRepository;
 import az.softsolution.bookingsystem.repository.UserRepository;
 import az.softsolution.bookingsystem.service.BookService;
 import org.springframework.stereotype.Service;
@@ -17,11 +19,13 @@ public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
     private final UserRepository userRepository;
+    private final FlightRepository flightRepository;
     private final UserMapper userMapper;
 
-    public BookServiceImpl(BookRepository repository, UserRepository userRepository, UserMapper userMapper) {
+    public BookServiceImpl(BookRepository repository, UserRepository userRepository, FlightRepository flightRepository, UserMapper userMapper) {
         this.bookRepository = repository;
         this.userRepository = userRepository;
+        this.flightRepository = flightRepository;
         this.userMapper = userMapper;
     }
 
@@ -29,9 +33,16 @@ public class BookServiceImpl implements BookService {
     public Long book(Long flightId, UserDto userDto) {
         User user = userMapper.toUser(userDto);
         User savedUser = userRepository.save(user);
-        Long addedUserId = savedUser.getId();
-        Book book = bookRepository.book(flightId, addedUserId);
-        return book.getId();
+
+        Flight flight = flightRepository.getById(flightId);
+
+        Book book = new Book().builder().
+                flight(flight).
+                user(savedUser).
+                build();
+
+        Book savedBook =  bookRepository.save(book);
+        return savedBook.getId();
     }
 
     @Override

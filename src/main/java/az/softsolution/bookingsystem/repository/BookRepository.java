@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BookRepository extends JpaRepository<Book,Long> {
-    @Query(value = "insert into book(flight_id, user_id) values (?1, ?2)", nativeQuery = true)
-    Book book(Long flightId,Long userId);
+    @Query(value = "insert into booking.book(flight_id, user_id) values (?1, ?2)", nativeQuery = true)
+    void book(Long flightId,Long userId);
 }

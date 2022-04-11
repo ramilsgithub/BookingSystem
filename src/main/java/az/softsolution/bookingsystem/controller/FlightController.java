@@ -15,7 +15,7 @@ public class FlightController {
     public FlightController(FlightService service) {
         this.service = service;
     }
-    @GetMapping
+    @GetMapping("/next_day")
     public List<FlightDto> getNextDay() {
         return service.getNextDay();
     }

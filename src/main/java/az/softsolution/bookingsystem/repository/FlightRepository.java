@@ -9,7 +9,7 @@ import java.util.List;
 @Repository
 public interface FlightRepository extends JpaRepository<Flight,Long> {
 
-    List<Flight> findAllByDateIsGreaterThan(LocalDate date);
+    List<Flight> findAllByDateEquals(LocalDate date);
 
     List<Flight> findAllByDestinationEqualsAndDateEqualsAndFreeSeatsGreaterThanEqual(String destination,
                                                                                      LocalDate date, int count);
