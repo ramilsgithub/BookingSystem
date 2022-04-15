@@ -18,7 +18,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Book> showBooks(UserDto userDto) {
+    public List<Object[]> showBooks(UserDto userDto) {
         return repository.findBooks(userDto.getName(),userDto.getSurname());
     }
 }

@@ -36,6 +36,9 @@ public class BookServiceImpl implements BookService {
 
         Flight flight = flightRepository.getById(flightId);
 
+        int freeSeats = flight.getFreeSeats() - 1;
+        flightRepository.update(freeSeats, flightId);
+
         Book book = new Book().builder().
                 flight(flight).
                 user(savedUser).

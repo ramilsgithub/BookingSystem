@@ -1,15 +1,15 @@
 package az.softsolution.bookingsystem.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Setter
 @Getter
+@Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class FlightDto {
 
     private Long id;

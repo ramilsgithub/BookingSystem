@@ -25,7 +25,6 @@ public class FlightController {
         return service.getById(id);
     }
 
-
     @GetMapping("/detailed_search")
     public List<FlightDto> serch(@RequestBody RequestDto requestDto){
         return service.search(requestDto.getDestination(),requestDto.getDate(),requestDto.getNumberOfPeople());

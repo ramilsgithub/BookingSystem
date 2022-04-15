@@ -20,7 +20,7 @@ public class UserController {
     }
 
     @GetMapping("show")
-    public List<Book> showBooks(@RequestBody UserDto userDto){
+    public List<Object[]> showBooks(@RequestBody UserDto userDto){
        return service.showBooks(userDto);
     }
 }
