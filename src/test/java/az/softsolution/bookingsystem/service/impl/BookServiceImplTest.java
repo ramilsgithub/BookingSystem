@@ -46,7 +46,7 @@ class BookServiceImplTest {
         when(bookRepository.findById(n)).thenReturn(Optional.of(book1));
 
 
-     //   when(bookRepository.delete(book)).thenReturn(n);
+        when(bookRepository.delete(book)).thenReturn(n);
         service.cancelBook(1L);
         verify(bookRepository, times(1)).delete(book);
     }

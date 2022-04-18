@@ -30,7 +30,7 @@ class UserServiceImplTest {
         UserDto userDto = new UserDto();
         BookResponseDto bookResponseDto = new BookResponseDto();
 
-      //  when(userRepository.findBooks(userDto)).thenReturn(Stream.of(bookResponseDto).collect(Collectors.toList()));
+        when(userRepository.findBooks(userDto)).thenReturn(Stream.of(bookResponseDto).collect(Collectors.toList()));
         assertEquals(1, service.showBooks(userDto).size());
     }
 }
