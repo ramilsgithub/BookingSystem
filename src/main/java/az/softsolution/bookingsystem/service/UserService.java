@@ -1,10 +1,10 @@
 package az.softsolution.bookingsystem.service;
 
 import az.softsolution.bookingsystem.dto.UserDto;
-import az.softsolution.bookingsystem.model.Book;
+import az.softsolution.bookingsystem.dto.BookResponseDto;
 
 import java.util.List;
 
 public interface UserService {
-    List<Object[]> showBooks(UserDto userDto);
+    List<BookResponseDto> showBooks(UserDto userDto);
 }

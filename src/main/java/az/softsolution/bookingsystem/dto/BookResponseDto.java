@@ -1,5 +1,6 @@
 package az.softsolution.bookingsystem.dto;
 
+
 import lombok.*;
 
 @Setter
@@ -7,8 +8,11 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDto {
+public class BookResponseDto {
 
+    private Long bookId;
+    private Long flightId;
     private String name;
     private String surname;
+
 }

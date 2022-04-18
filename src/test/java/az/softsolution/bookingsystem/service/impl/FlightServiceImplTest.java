@@ -4,14 +4,18 @@ import az.softsolution.bookingsystem.dto.FlightDto;
 import az.softsolution.bookingsystem.mapper.FlightMapper;
 import az.softsolution.bookingsystem.model.Flight;
 import az.softsolution.bookingsystem.repository.FlightRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -24,40 +28,77 @@ import static org.mockito.Mockito.*;
 class FlightServiceImplTest {
 
     @Mock
-    private FlightRepository repository;
+    FlightRepository flightRepository;
 
     @Mock
-    private FlightMapper mapper;
+     FlightMapper mapper;
 
     @InjectMocks
-    private FlightServiceImpl service;
+    FlightServiceImpl service;
 
 
-    @Test
-    void getNextDay() {
-        LocalDate date = LocalDate.now();
-        LocalDate nexdDay = LocalDate.of(date.getYear(), date.getMonth(), date.getDayOfMonth() + 1);
-        Flight flight = new Flight().builder().
+    Flight flight;
+    FlightDto flightDto;
+
+    LocalDate date = LocalDate.now();
+    LocalDate nexdDay = LocalDate.of(date.getYear(), date.getMonth(), date.getDayOfMonth() + 1);
+
+
+    @BeforeEach
+    void setUp() {
+        flight = Flight.builder().
+                id(1L).
                 date(nexdDay).
                 destination("Baku").
                 seats(66).
                 build();
 
-        when(repository.findAllByDateEquals(nexdDay)).thenReturn(Stream.of(flight).collect(Collectors.toList()));
+        flightDto = FlightDto.builder()
+                .id(1L)
+                .date(nexdDay)
+                .destination("Baku")
+                .seats(66)
+                .build();
+    }
 
+
+    @Test
+    void getNextDayTest() {
+        when(flightRepository.findAllByDateEquals(nexdDay)).thenReturn(Stream.of(flight).collect(Collectors.toList()));
+        when(mapper.toFlightDtos(Stream.of(flight).collect(Collectors.toList()))).
+                thenReturn(Stream.of(flightDto).collect(Collectors.toList()));
         assertEquals(1, service.getNextDay().size());
-        verify(repository,times(1)).findAllByDateEquals(nexdDay);
+        verify(flightRepository,times(1)).findAllByDateEquals(nexdDay);
     }
 
     @Test
-    void getById() {
-            Flight flight = new Flight().builder().
-                    id(1L).
-                    destination("Ganja").
-                    build();
-            when(repository.findById(1L)).thenReturn(Optional.of(flight));
-            FlightDto flightDto = service.getById(1l);
-            assertEquals("Ganja", flightDto.getDestination());
+    void getByIdTest() {
+
+        when(flightRepository.findById(1L)).thenReturn(Optional.of(flight));
+
+        when(mapper.toFlightDto(flight)).thenReturn(flightDto);
+
+        assertEquals("Baku", service.getById(1L).getDestination());
+
+        verify(flightRepository,times(1)).findById(1L);
+
+    }
+
+
+    @Test
+    void searchTest() {
+
+        when(flightRepository.findAllByDestinationEqualsAndDateEqualsAndFreeSeatsGreaterThanEqual("Baku", nexdDay,2)).
+                thenReturn(Stream.of(flight).collect(Collectors.toList()));
+
+        when(mapper.toFlightDtos(Stream.of(flight).collect(Collectors.toList()))).
+                thenReturn(Stream.of(flightDto).collect(Collectors.toList()));
+
+        assertEquals(1, service.search("Baku", nexdDay,2).size());
+
+        verify(flightRepository,times(1)).
+                findAllByDestinationEqualsAndDateEqualsAndFreeSeatsGreaterThanEqual("Baku", nexdDay,2);
+
     }
 
 

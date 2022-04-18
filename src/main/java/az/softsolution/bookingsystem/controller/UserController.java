@@ -1,7 +1,7 @@
 package az.softsolution.bookingsystem.controller;
 
 import az.softsolution.bookingsystem.dto.UserDto;
-import az.softsolution.bookingsystem.model.Book;
+import az.softsolution.bookingsystem.dto.BookResponseDto;
 import az.softsolution.bookingsystem.service.UserService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,7 +20,7 @@ public class UserController {
     }
 
     @GetMapping("show")
-    public List<Object[]> showBooks(@RequestBody UserDto userDto){
+    public List<BookResponseDto> showBooks(@RequestBody UserDto userDto){
        return service.showBooks(userDto);
     }
 }
